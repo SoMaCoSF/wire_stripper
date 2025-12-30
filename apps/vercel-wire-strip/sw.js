@@ -4,6 +4,7 @@ self.addEventListener('install', (e) => {
       './',
       './index.html',
       './styles.css',
+      './hex3d.js',
       './app.js',
       './content/WIRE_STRIPPER_APP.md',
       './content/DEV_DIARY.md',

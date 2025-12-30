@@ -163,6 +163,31 @@ pre{white-space:pre-wrap;word-break:break-word;background:rgba(6,10,26,0.85);bor
 .modal input{width:100%;padding:10px 12px;border-radius:12px;border:1px solid rgba(74,158,255,0.18);background:rgba(6,10,26,0.85);color:var(--fg);outline:none}
 .modal input:focus{border-color: rgba(107,182,255,0.9);box-shadow:0 0 0 1px rgba(74,158,255,0.18), 0 0 24px rgba(74,158,255,0.18)}
 
+/* Radial hex right-click menu (sandbox_03-inspired, but hex/radial) */
+.radialMenu{position:fixed;z-index:1200;pointer-events:auto;transform:translate(-50%,-50%);}
+.radialMenu .radialCenter{position:absolute;left:0;top:0;transform:translate(-50%,-50%);width:86px;height:86px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(180deg, rgba(10,16,40,0.92), rgba(8,12,28,0.92));
+  border:1px solid rgba(107,182,255,0.55);
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  color:rgba(230,237,243,0.9);
+  box-shadow:0 0 28px rgba(74,158,255,0.18);
+  font-weight:700;
+  letter-spacing:0.08em;
+  font-size:12px;
+}
+.radialMenu .hexBtn{position:absolute;left:0;top:0;transform:translate(0,0);
+  width:86px;height:86px;padding:0 8px;text-align:center;
+  font-size:12px;line-height:1.1;
+  background:linear-gradient(180deg, rgba(10,16,40,0.92), rgba(8,12,28,0.92));
+  color:var(--fg);
+  border:1px solid rgba(74,158,255,0.28);
+  cursor:pointer;
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  transition:transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+.radialMenu .hexBtn:hover{border-color:rgba(107,182,255,0.9);box-shadow:0 0 20px rgba(74,158,255,0.22);}
+.radialMenu .hexBtn.danger{border-color:rgba(255,68,68,0.6);color:#fecaca}
+
 /* Subtle shimmer for key UI elements */
 @keyframes shimmer{0%{filter:drop-shadow(0 0 0 rgba(74,158,255,0))}50%{filter:drop-shadow(0 0 14px rgba(74,158,255,0.18))}100%{filter:drop-shadow(0 0 0 rgba(74,158,255,0))}}
 .badge{animation: shimmer 5.5s ease-in-out infinite}
