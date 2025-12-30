@@ -9,7 +9,8 @@ self.addEventListener('install', (e) => {
       './content/DEV_DIARY.md',
       './content/diagrams.md',
       './content/gamification.md',
-      './content/power_sample.json'
+      './content/power_sample.json',
+      './content/hexaphexaH_wirestripper.md'
     ]))
   );
 });

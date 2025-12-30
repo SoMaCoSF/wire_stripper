@@ -13,7 +13,7 @@
       <nav>
         <div class="badge">wire_stripper</div>
         <button data-tab="overview">Overview</button>
-        <button data-tab="map">Power Map</button>
+        <button data-tab="hex">HexaphexaH</button>
         <button data-tab="game">Game Design</button>
         <button data-tab="diagrams">Diagrams</button>
         <button data-tab="spec">Spec</button>
@@ -46,39 +46,82 @@ python -m wire_stripper --root .\\data etl --profile default import-all</pre>
       </div>
     </section>
 
-    <section class="card" data-view="map" style="display:none">
-      <h2>Power Map (entities ↔ ASNs)</h2>
-      <p class="small">Interactive demo seeded from AEGIS power-intel: click nodes to inspect; block/quarantine to reduce Heat.</p>
+    <section class="card" data-view="hex" style="display:none">
+      <h2>HexaphexaH: wire_stripper tower defense</h2>
+      <p class="small">
+        Creeps are network attacks. Towers are wire-stripping controls. Routing uses axial hex math + A*.
+      </p>
+
       <div class="mapGrid">
         <div class="card">
           <div class="hud">
-            <div><span class="badge">XP</span> <span id="xp">0</span> <span class="small">(Level <span id="level">1</span>)</span></div>
-            <div><span class="badge">Heat</span> <span id="heat">0.00</span> <span class="small">unblocked threat</span></div>
-            <div><span class="badge">Availability</span> <span id="avail">100</span><span class="small">%</span></div>
+            <div><span class="badge">Gold</span> <span id="gGold">0</span></div>
+            <div><span class="badge">Wave</span> <span id="gWave">0</span></div>
+            <div><span class="badge">Base</span> <span id="gBase">0</span></div>
+            <div><span class="badge">Score</span> <span id="gScore">0</span></div>
           </div>
-          <canvas id="graph" width="900" height="520" class="graph"></canvas>
-          <div class="small">Tip: drag nodes; scroll to zoom (mouse wheel).</div>
-        </div>
-        <div class="card">
-          <h3>Inspector</h3>
-          <div class="small" id="selHint">Select a node.</div>
-          <div id="inspector" style="display:none">
-            <div class="kv"><div class="k">Name</div><div class="v" id="iName"></div></div>
-            <div class="kv"><div class="k">Type</div><div class="v" id="iType"></div></div>
-            <div class="kv"><div class="k">Category</div><div class="v" id="iCat"></div></div>
-            <div class="kv"><div class="k">Tier</div><div class="v" id="iTier"></div></div>
-            <div class="kv"><div class="k">Threat</div><div class="v" id="iThreat"></div></div>
-            <div class="kv"><div class="k">Power</div><div class="v" id="iPower"></div></div>
-            <div class="kv"><div class="k">State</div><div class="v" id="iState"></div></div>
 
-            <div class="actions">
-              <button id="actInspect">Inspect</button>
-              <button id="actQuarantine">Quarantine</button>
-              <button id="actBlock" class="danger">Block</button>
-              <button id="actUnblock">Unblock</button>
+           <div class="actions">
+             <button id="btnStart">Start</button>
+             <button id="btnPause">Pause</button>
+             <button id="btnNextWave">Next wave</button>
+             <button id="btnSettings">Settings</button>
+             <span class="small">Tower:</span>
+             <button id="tFilter">Filter</button>
+             <button id="tQuarantine">Quarantine</button>
+             <button id="tSniper">Sniper</button>
+             <button id="tAoE">Firewall</button>
+           </div>
+
+          <canvas id="hexGame" width="900" height="520" class="graph"></canvas>
+          <div class="small">Left click: place tower. Right click: remove tower.</div>
+        </div>
+
+        <div class="modal" id="settingsModal" style="display:none">
+          <div class="modalBody card">
+            <div class="hud">
+              <div><span class="badge">HexaphexaH</span> Settings</div>
+              <button id="btnCloseSettings">Close</button>
             </div>
 
-            <div class="small" id="mission"></div>
+            <div class="kv"><div class="k">Seed</div><div class="v"><input id="setSeed" type="number" value="1337" /></div></div>
+            <div class="kv"><div class="k">Radius</div><div class="v"><input id="setRadius" type="number" min="5" max="16" value="9" /></div></div>
+            <div class="kv"><div class="k">Fibonacci</div><div class="v"><label class="small"><input id="setFib" type="checkbox" /> spiral routing</label></div></div>
+
+            <div class="actions">
+              <button id="btnApplySettings">Apply</button>
+              <button id="btnReset">Reset run</button>
+            </div>
+
+            <div class="small">Tip: seed controls shimmer + faction layout. Radius controls map size.</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Inspector</h3>
+          <div class="small" id="gHint">Click a hex or a creep.</div>
+          <div id="gInspector" style="display:none">
+            <div class="kv"><div class="k">Tile</div><div class="v" id="gTile"></div></div>
+            <div class="kv"><div class="k">Owner</div><div class="v" id="gOwner"></div></div>
+            <div class="kv"><div class="k">Tower</div><div class="v" id="gTower"></div></div>
+            <div class="kv"><div class="k">Attack</div><div class="v" id="gAttack"></div></div>
+            <div class="kv"><div class="k">HP</div><div class="v" id="gHP"></div></div>
+            <div class="kv"><div class="k">Status</div><div class="v" id="gStatus"></div></div>
+            <div class="small" id="gTip"></div>
+          </div>
+
+          <h3>Factions</h3>
+          <div class="small">
+            GOOGLE · META · AWS · MICROSOFT · CLOUDFLARE · PALANTIR
+            <div class="small">(seed-driven sector layout in this demo)</div>
+          </div>
+
+          <h3>Attack types</h3>
+          <div class="small">
+            - DDoS: fast swarm, low HP
+            - CredentialStuff: medium HP, medium speed
+            - Exfiltration: tanky, high damage on base
+            - MalwareDrop: slow, high HP, debuff aura
           </div>
         </div>
       </div>
@@ -112,7 +155,6 @@ python -m wire_stripper --root .\\data etl --profile default import-all</pre>
     <div class="footer">Vercel SPA/PWA skeleton (no framework).</div>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script src="./app.js"></script>
   <script>

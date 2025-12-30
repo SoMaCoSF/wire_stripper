@@ -1,137 +1,97 @@
-# Gamification: turning real ASN/IP/entity intelligence into an interactive perimeter game
+# Gamification: HexaphexaH wire_stripper (tower defense)
 
-This page is the *design spec* for the Vercel wire_stripper “power map” experience.
+This Vercel game is a *training simulator* for real wire stripping.
 
-It is based on the real-world AEGIS / Unified Power Intelligence model:
-- entities (companies, politicians, institutions)
-- network ownership (ASNs, prefixes)
-- corporate hierarchy (subsidiaries)
-- risk signals (data broker / ad-tech / surveillance)
-- composite power scoring
+Instead of abstract “nodes”, you play a hex-based tower defense:
+- **Creeps** = network attacks
+- **Towers** = wire-stripping controls
+- **Pathfinding** = how attacks route around your defenses
 
-The goal is to make **operational network defense** feel like a strategy game, without losing fidelity.
+The objective is to reduce risk without self-DOS.
 
 ---
 
-## 1) What the player is actually doing
+## 1) Core loop
 
-You are an edge device trying to **govern your firehose**.
-
-You do not “win” by blocking everything.
-You win by:
-- minimizing tracking exposure
-- minimizing collateral damage
-- building attribution certainty
-- escalating enforcement cautiously (domain → eTLD+1 → ip → prefix → ASN)
-
-This maps perfectly to gameplay loops.
+1) Observe attacks entering your network perimeter
+2) Place controls (towers) to mitigate
+3) Maintain availability by avoiding overblocking
+4) Earn gold and score by neutralizing threats
 
 ---
 
-## 2) Core mechanics
+## 2) Attack (creep) types
 
-### 2.1 Inspect → Attribute → Decide → Enforce
+All attacks have: `health`, `speed`, `reward`, `baseDamage`, `tags`.
 
-Each node (entity, ASN) has:
-- `threat` (privacy risk)
-- `power` (infrastructure control)
-- `tier` (power tier)
-- `category` tags (data_broker, ad_tech, surveillance, cloud, cdn)
+- **DDoS Swarm**
+  - Many fast, low-HP creeps
+  - Teaches: rate limiting and AOE defenses
 
-Player actions:
-- **Inspect** (gain intel; increases confidence)
-- **Quarantine** (greylist; time-boxed)
-- **Block** (denylist)
-- **Allow** (whitelist override)
+- **Credential Stuffing**
+  - Medium HP, medium speed
+  - Teaches: targeted controls and prioritization
 
-### 2.2 Escalation ladder as a “skill tree”
+- **Exfiltration**
+  - Tanky, slow-ish, high base damage
+  - Teaches: early detection + sniper controls
 
-You start with lightweight controls:
-- block domains / eTLD+1
-
-Unlock stronger abilities:
-- block IP
-- block prefix
-
-“ASN block” is a late-game ability with severe penalties.
+- **Malware Drop**
+  - Slow, high HP
+  - Teaches: layered defense and choke points
 
 ---
 
-## 3) Scoring system (XP) — optimized for real-world behavior
+## 3) Tower (control) types
 
-The scoring should reward *correct, low-collateral decisions*.
+- **Filter (baseline)**
+  - Medium range, medium damage
+  - Represents basic allow/deny filtering
 
-- +5 XP: inspect a node
-- +15 XP: identify a subsidiary chain (parent → child)
-- +25 XP: block a high-threat node (threat ≥ 0.8)
-- +40 XP: block an entity’s ASN cluster *without* breaking allowlisted dependencies
-- -50 XP: over-block (block a CDN/Cloud ASN without allowlist exceptions)
+- **Quarantine (slow)**
+  - Applies slow within range
+  - Represents greylist/quarantine and inspection delay
 
-A “Heat” meter tracks **unblocked threat**:
-- Heat is the sum of threat scores of nodes reachable from the player.
-- Goal is to reduce Heat while keeping “Availability” above a threshold.
+- **Sniper (precision)**
+  - Long range, high damage, slow rate
+  - Represents targeted block based on high-confidence attribution
 
----
-
-## 4) Achievements (high-signal, not gimmicks)
-
-- **First Blood**: first block action
-- **Data Broker Hunter**: block 3 data_broker entities
-- **Ad-Tech Surgeon**: block 10 ad_tech nodes without blocking a CDN
-- **No Collateral**: complete a mission with zero Availability penalties
-- **Tier-2 Takedown**: reduce exposure to a TIER_2 entity (e.g., Meta/Google) below a threshold using targeted actions
+- **Firewall (AOE)**
+  - Short range, splash damage
+  - Represents coarse perimeter controls (powerful but collateral risk)
 
 ---
 
-## 5) Missions (quests) generated from real topology
+## 4) Real-world mapping
 
-Missions should be graph-derived:
+This is not fantasy — each “country” on the hex map can represent:
+- an ASN
+- a company entity
+- a subsidiary cluster
 
-### Mission type A: “Chain Cut”
-- Identify and neutralize a tracking chain:
-  `Parent company → subsidiary → ASN(s)`
-
-Example (from seed data):
-- Alphabet → Google → (AS15169, AS36040, AS36384)
-
-### Mission type B: “Contain the Broker”
-- Reduce exposure to entities tagged `data_broker` below a threshold.
-
-Example:
-- Meta Platforms (data_broker)
-
-### Mission type C: “Collateral-safe hardening”
-- Minimize heat without blocking CDNs.
+In the real system:
+- territories are generated from observed CDP network events enriched by DMBT (IP→ASN→prefix)
+- attack waves are generated from real traffic classifications (tracker beacons, C2, brute force)
 
 ---
 
-## 6) What makes this powerful vs toy gamification
+## 5) Scoring (the training incentive)
 
-The game is not fictional.
+- +score for killing threats
+- +gold for kills (build more controls)
+- penalty if too many attacks reach base
 
-It trains the operator to internalize:
-- corporate hierarchy (ownership chains)
-- infrastructure reality (ASNs/prefixes)
-- safe enforcement ladders
-- tradeoffs between privacy and availability
-
-Over time, your local edge devices become sensors feeding the `ASN_BGP_SCAPE`.
+The scoring is designed to reward:
+- correct defenses
+- early interception
+- minimal collateral
 
 ---
 
-## 7) UI concepts for the Vercel SPA
+## 6) Why hex + A*
 
-- Force-directed graph map (entities + ASNs)
-- Click node → right-side inspector panel
-- Buttons: Inspect / Block / Unblock / Quarantine
-- HUD:
-  - XP + Level
-  - Heat (exposure)
-  - Availability (collateral)
-  - Current mission
-
-All actions persist locally (LocalStorage) in the web demo.
-In the real system, actions map to:
-- SQLite list_entry mutations
-- export plans (browser rules / firewall)
-
+Hex grids produce clean, legible choke points.
+A* pathfinding makes defenses meaningful:
+- you can build funnels
+- you can force reroutes
+- you can test "does this block everything?" as a safety mechanic
