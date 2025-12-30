@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>wire_stripper — firehose governor</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <nav>
+        <div class="badge">wire_stripper</div>
+        <button data-tab="overview">Overview</button>
+        <button data-tab="diagrams">Diagrams</button>
+        <button data-tab="spec">Spec</button>
+        <button data-tab="diary">Diary</button>
+        <a class="small" href="https://gist.github.com/SoMaCoSF/b03c3bf0ba9e98c063eba9ca8cc73bfb" target="_blank" rel="noreferrer">Public gist</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div id="error" class="small"></div>
+
+    <section class="grid" data-view="overview">
+      <div class="card">
+        <h2>Control your firehose</h2>
+        <p class="small">
+          wire_stripper is a local perimeter compiler. It fuses the MCP-in-browser insight (tool router as choke point)
+          with DMBT attribution (IP→ASN→prefix) and Privacy Proxy semantics (cookies/fingerprint) into one SQLite truth store.
+        </p>
+        <pre class="code" id="appdoc"></pre>
+      </div>
+      <div class="card">
+        <h3>Runbook (local)</h3>
+        <pre class="code">python -m wire_stripper --root .\\data db init
+python -m wire_stripper --root .\\data etl --profile default import-all</pre>
+        <p class="small">
+          This Vercel build is static and shows the spec/diagrams. The live capture pipeline (CDP network + policy preflight)
+          is implemented locally and will be surfaced via OTel/OTLP and/or an API in a later deploy.
+        </p>
+      </div>
+    </section>
+
+    <section class="card" data-view="diagrams" style="display:none">
+      <h2>Architecture diagrams</h2>
+      <div id="diagramContainer"></div>
+      <div class="footer">Rendered with Mermaid (client-side).</div>
+    </section>
+
+    <section class="card" data-view="spec" style="display:none">
+      <h2>wire_stripper.app</h2>
+      <pre class="code" id="spec"></pre>
+      <script>
+        // spec is same as appdoc for now; app.js fills appdoc
+        // leaving this placeholder to extend into APIs/telemetry.
+      </script>
+    </section>
+
+    <section class="card" data-view="diary" style="display:none">
+      <h2>Development diary</h2>
+      <pre class="code" id="diary"></pre>
+    </section>
+
+    <div class="footer">Vercel SPA/PWA skeleton (no framework).</div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script src="./app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(()=>{});
+    }
+  </script>
+</body>
+</html>

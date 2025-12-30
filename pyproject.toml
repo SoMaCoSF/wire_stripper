@@ -1,0 +1,11 @@
+[project]
+name = "wire_stripper"
+version = "0.1.0"
+description = "Local egress/ingress control + ASN/BGP intelligence + federated lists"
+requires-python = ">=3.10"
+
+[project.scripts]
+wire-strip = "wire_stripper.__main__:main"
+
+[tool.uv]
+
