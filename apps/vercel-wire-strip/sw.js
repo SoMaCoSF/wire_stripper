@@ -7,7 +7,9 @@ self.addEventListener('install', (e) => {
       './app.js',
       './content/WIRE_STRIPPER_APP.md',
       './content/DEV_DIARY.md',
-      './content/diagrams.md'
+      './content/diagrams.md',
+      './content/gamification.md',
+      './content/power_sample.json'
     ]))
   );
 });

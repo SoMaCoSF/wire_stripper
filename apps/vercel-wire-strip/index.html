@@ -13,6 +13,8 @@
       <nav>
         <div class="badge">wire_stripper</div>
         <button data-tab="overview">Overview</button>
+        <button data-tab="map">Power Map</button>
+        <button data-tab="game">Game Design</button>
         <button data-tab="diagrams">Diagrams</button>
         <button data-tab="spec">Spec</button>
         <button data-tab="diary">Diary</button>
@@ -44,6 +46,49 @@ python -m wire_stripper --root .\\data etl --profile default import-all</pre>
       </div>
     </section>
 
+    <section class="card" data-view="map" style="display:none">
+      <h2>Power Map (entities ↔ ASNs)</h2>
+      <p class="small">Interactive demo seeded from AEGIS power-intel: click nodes to inspect; block/quarantine to reduce Heat.</p>
+      <div class="mapGrid">
+        <div class="card">
+          <div class="hud">
+            <div><span class="badge">XP</span> <span id="xp">0</span> <span class="small">(Level <span id="level">1</span>)</span></div>
+            <div><span class="badge">Heat</span> <span id="heat">0.00</span> <span class="small">unblocked threat</span></div>
+            <div><span class="badge">Availability</span> <span id="avail">100</span><span class="small">%</span></div>
+          </div>
+          <canvas id="graph" width="900" height="520" class="graph"></canvas>
+          <div class="small">Tip: drag nodes; scroll to zoom (mouse wheel).</div>
+        </div>
+        <div class="card">
+          <h3>Inspector</h3>
+          <div class="small" id="selHint">Select a node.</div>
+          <div id="inspector" style="display:none">
+            <div class="kv"><div class="k">Name</div><div class="v" id="iName"></div></div>
+            <div class="kv"><div class="k">Type</div><div class="v" id="iType"></div></div>
+            <div class="kv"><div class="k">Category</div><div class="v" id="iCat"></div></div>
+            <div class="kv"><div class="k">Tier</div><div class="v" id="iTier"></div></div>
+            <div class="kv"><div class="k">Threat</div><div class="v" id="iThreat"></div></div>
+            <div class="kv"><div class="k">Power</div><div class="v" id="iPower"></div></div>
+            <div class="kv"><div class="k">State</div><div class="v" id="iState"></div></div>
+
+            <div class="actions">
+              <button id="actInspect">Inspect</button>
+              <button id="actQuarantine">Quarantine</button>
+              <button id="actBlock" class="danger">Block</button>
+              <button id="actUnblock">Unblock</button>
+            </div>
+
+            <div class="small" id="mission"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" data-view="game" style="display:none">
+      <h2>Gamification spec</h2>
+      <pre class="code" id="gameDoc"></pre>
+    </section>
+
     <section class="card" data-view="diagrams" style="display:none">
       <h2>Architecture diagrams</h2>
       <div id="diagramContainer"></div>
@@ -67,6 +112,7 @@ python -m wire_stripper --root .\\data etl --profile default import-all</pre>
     <div class="footer">Vercel SPA/PWA skeleton (no framework).</div>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script src="./app.js"></script>
   <script>

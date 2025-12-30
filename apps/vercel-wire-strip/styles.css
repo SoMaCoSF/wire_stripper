@@ -14,3 +14,14 @@ pre{white-space:pre-wrap;word-break:break-word;background:#0c1226;border:1px sol
 .code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px}
 .badge{display:inline-block;padding:3px 8px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:12px}
 .footer{margin-top:22px;color:var(--muted);font-size:12px}
+
+.mapGrid{display:grid;grid-template-columns:1.3fr .7fr;gap:14px}
+@media (max-width: 900px){.mapGrid{grid-template-columns:1fr}}
+.graph{width:100%;height:auto;background:#0c1226;border:1px solid var(--line);border-radius:12px}
+.hud{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:10px}
+.kv{display:grid;grid-template-columns:90px 1fr;gap:8px;padding:6px 0;border-bottom:1px solid var(--line)}
+.kv .k{color:var(--muted);font-size:12px}
+.kv .v{font-size:13px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.actions button{background:transparent;color:var(--fg);border:1px solid var(--line);padding:8px 10px;border-radius:10px;cursor:pointer}
+.actions button.danger{border-color:#ef4444;color:#fecaca}

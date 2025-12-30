@@ -1,0 +1,94 @@
+{
+  "meta": {
+    "source": "Synthesized from AEGIS-POWER-INTEL-GIST.md (2025-12-09)",
+    "note": "Sample seed graph for UI/gamification. Replace with real exports later."
+  },
+  "nodes": [
+    {"id":"alphabet-inc","type":"company","name":"Alphabet Inc.","category":"holding","threat":0.65,"power":0.72,"tier":"TIER_2"},
+    {"id":"google-llc","type":"company","name":"Google LLC","category":"ad_tech","threat":0.95,"power":0.88,"tier":"TIER_2"},
+    {"id":"youtube-llc","type":"company","name":"YouTube, LLC","category":"ad_tech","threat":0.90,"power":0.70,"tier":"TIER_2"},
+    {"id":"doubleclick-inc","type":"company","name":"DoubleClick Inc.","category":"ad_tech","threat":0.99,"power":0.62,"tier":"TIER_3"},
+
+    {"id":"meta-platforms-inc","type":"company","name":"Meta Platforms, Inc.","category":"data_broker","threat":0.98,"power":0.75,"tier":"TIER_2"},
+    {"id":"instagram-llc","type":"company","name":"Instagram, LLC","category":"ad_tech","threat":0.95,"power":0.62,"tier":"TIER_3"},
+    {"id":"whatsapp-llc","type":"company","name":"WhatsApp LLC","category":"messaging","threat":0.80,"power":0.55,"tier":"TIER_3"},
+
+    {"id":"amazon-com-inc","type":"company","name":"Amazon.com, Inc.","category":"holding","threat":0.85,"power":0.78,"tier":"TIER_2"},
+    {"id":"aws-inc","type":"company","name":"Amazon Web Services, Inc.","category":"cloud","threat":0.70,"power":0.80,"tier":"TIER_2"},
+
+    {"id":"microsoft-corp","type":"company","name":"Microsoft Corporation","category":"cloud","threat":0.70,"power":0.80,"tier":"TIER_2"},
+    {"id":"linkedin-corp","type":"company","name":"LinkedIn Corporation","category":"ad_tech","threat":0.85,"power":0.55,"tier":"TIER_3"},
+    {"id":"github-inc","type":"company","name":"GitHub, Inc.","category":"developer_tools","threat":0.50,"power":0.48,"tier":"TIER_4"},
+
+    {"id":"apple-inc","type":"company","name":"Apple Inc.","category":"consumer","threat":0.40,"power":0.70,"tier":"TIER_2"},
+
+    {"id":"cloudflare-inc","type":"company","name":"Cloudflare, Inc.","category":"cdn","threat":0.50,"power":0.68,"tier":"TIER_3"},
+    {"id":"akamai-technologies","type":"company","name":"Akamai Technologies, Inc.","category":"cdn","threat":0.45,"power":0.60,"tier":"TIER_3"},
+    {"id":"fastly-inc","type":"company","name":"Fastly, Inc.","category":"cdn","threat":0.40,"power":0.55,"tier":"TIER_3"},
+
+    {"id":"palantir-technologies","type":"company","name":"Palantir Technologies Inc.","category":"surveillance","threat":0.99,"power":0.77,"tier":"TIER_2"},
+
+    {"id":"AS15169","type":"asn","name":"AS15169 (GOOGLE)","category":"asn","threat":0.75,"power":0.75,"tier":"TIER_3"},
+    {"id":"AS36040","type":"asn","name":"AS36040 (GOOGLE-IT)","category":"asn","threat":0.60,"power":0.55,"tier":"TIER_4"},
+    {"id":"AS36384","type":"asn","name":"AS36384 (GOOGLE-CLOUD)","category":"asn","threat":0.60,"power":0.60,"tier":"TIER_4"},
+
+    {"id":"AS32934","type":"asn","name":"AS32934 (FACEBOOK)","category":"asn","threat":0.78,"power":0.65,"tier":"TIER_3"},
+    {"id":"AS63293","type":"asn","name":"AS63293 (FACEBOOK-OFFNET)","category":"asn","threat":0.65,"power":0.55,"tier":"TIER_4"},
+
+    {"id":"AS16509","type":"asn","name":"AS16509 (AMAZON-02)","category":"asn","threat":0.55,"power":0.70,"tier":"TIER_3"},
+    {"id":"AS14618","type":"asn","name":"AS14618 (AMAZON-AES)","category":"asn","threat":0.50,"power":0.62,"tier":"TIER_3"},
+
+    {"id":"AS8075","type":"asn","name":"AS8075 (MICROSOFT)","category":"asn","threat":0.50,"power":0.68,"tier":"TIER_3"},
+    {"id":"AS8068","type":"asn","name":"AS8068 (MICROSOFT-ENTERPRISE)","category":"asn","threat":0.45,"power":0.55,"tier":"TIER_4"},
+
+    {"id":"AS714","type":"asn","name":"AS714 (APPLE)","category":"asn","threat":0.30,"power":0.55,"tier":"TIER_4"},
+    {"id":"AS6185","type":"asn","name":"AS6185 (APPLE)","category":"asn","threat":0.30,"power":0.45,"tier":"TIER_4"},
+
+    {"id":"AS13335","type":"asn","name":"AS13335 (CLOUDFLARE)","category":"asn","threat":0.35,"power":0.62,"tier":"TIER_3"},
+    {"id":"AS209242","type":"asn","name":"AS209242 (CLOUDFLARE-EU)","category":"asn","threat":0.30,"power":0.50,"tier":"TIER_4"},
+
+    {"id":"AS20940","type":"asn","name":"AS20940 (AKAMAI)","category":"asn","threat":0.30,"power":0.55,"tier":"TIER_4"},
+    {"id":"AS54113","type":"asn","name":"AS54113 (FASTLY)","category":"asn","threat":0.25,"power":0.48,"tier":"TIER_4"},
+
+    {"id":"player","type":"player","name":"You (edge device)","category":"player","threat":0.0,"power":0.0,"tier":"PLAYER"}
+  ],
+  "links": [
+    {"source":"alphabet-inc","target":"google-llc","type":"subsidiary"},
+    {"source":"alphabet-inc","target":"youtube-llc","type":"subsidiary"},
+    {"source":"google-llc","target":"doubleclick-inc","type":"subsidiary"},
+
+    {"source":"meta-platforms-inc","target":"instagram-llc","type":"subsidiary"},
+    {"source":"meta-platforms-inc","target":"whatsapp-llc","type":"subsidiary"},
+
+    {"source":"amazon-com-inc","target":"aws-inc","type":"subsidiary"},
+    {"source":"microsoft-corp","target":"linkedin-corp","type":"subsidiary"},
+    {"source":"microsoft-corp","target":"github-inc","type":"subsidiary"},
+
+    {"source":"google-llc","target":"AS15169","type":"owns_asn"},
+    {"source":"google-llc","target":"AS36040","type":"owns_asn"},
+    {"source":"google-llc","target":"AS36384","type":"owns_asn"},
+
+    {"source":"meta-platforms-inc","target":"AS32934","type":"owns_asn"},
+    {"source":"meta-platforms-inc","target":"AS63293","type":"owns_asn"},
+
+    {"source":"aws-inc","target":"AS16509","type":"owns_asn"},
+    {"source":"aws-inc","target":"AS14618","type":"owns_asn"},
+
+    {"source":"microsoft-corp","target":"AS8075","type":"owns_asn"},
+    {"source":"microsoft-corp","target":"AS8068","type":"owns_asn"},
+
+    {"source":"apple-inc","target":"AS714","type":"owns_asn"},
+    {"source":"apple-inc","target":"AS6185","type":"owns_asn"},
+
+    {"source":"cloudflare-inc","target":"AS13335","type":"owns_asn"},
+    {"source":"cloudflare-inc","target":"AS209242","type":"owns_asn"},
+
+    {"source":"akamai-technologies","target":"AS20940","type":"owns_asn"},
+    {"source":"fastly-inc","target":"AS54113","type":"owns_asn"},
+
+    {"source":"player","target":"google-llc","type":"observes"},
+    {"source":"player","target":"meta-platforms-inc","type":"observes"},
+    {"source":"player","target":"aws-inc","type":"observes"},
+    {"source":"player","target":"cloudflare-inc","type":"observes"}
+  ]
+}
